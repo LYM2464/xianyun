@@ -1,9 +1,12 @@
 <template>
   <div>
     <!-- 轮播图 -->
-    <el-carousel height="700px">
+    <el-carousel height="700px" :interval="2000">
       <el-carousel-item v-for="(item, index) in banners" :key="index">
-        <div class="banner"><img :src="item" alt="" />{{ item }}</div>
+        <div class="banner">
+          <img :src="item" alt />
+          {{ item }}
+        </div>
       </el-carousel-item>
 
       <!-- 搜索框 -->
@@ -14,18 +17,13 @@
             <span
               v-for="(item, index) in options"
               :key="index"
-              :class="{ action: index === currentOption }"
+              :class="{ active: index === currentOption }"
               @click="handlerOption(index)"
-            >
-              {{ item.name }}
-            </span>
+            >{{ item.name }}</span>
           </el-row>
           <!-- 输入框 -->
           <el-row type="flex" align="middle" class="search-input">
-            <input
-              :placeholder="options[currentOption].placeholder"
-              v-model="searchValue"
-            />
+            <input :placeholder="options[currentOption].placeholder" v-model="searchValue" />
             <i class="el-icon-search"></i>
           </el-row>
         </div>
@@ -39,7 +37,13 @@ export default {
   // - 参数定义
   data() {
     return {
-      banners: ["/images/1.jpg", "/images/2.jpg", "/images/3.jpg"],
+      banners: [
+        "http://157.122.54.189:9095/assets/images/th03.jfif",
+        "http://157.122.54.189:9095/assets/images/th04.jfif",
+        "/images/1.jpg",
+        "/images/4.jpg",
+        "/images/5.jpg"
+      ],
       options: [
         // 搜索框tab选项
         {
@@ -89,7 +93,6 @@ img {
 
   .search-bar {
     width: 552px;
-    margin: 0 auto;
     span {
       width: 82px;
       height: 36px;
@@ -97,7 +100,10 @@ img {
       position: relative;
       margin-right: 8px;
       cursor: pointer;
-      &:after {
+      color: #fff;
+      text-align: center;
+      &::before {
+        z-index: -1;
         position: absolute;
         left: 0;
         top: 0;
@@ -115,10 +121,9 @@ img {
       }
     }
     .active {
-      i {
-        color: #333;
-      }
-      &::after {
+      color: #333;
+
+      &::before {
         background: #eee;
       }
     }
