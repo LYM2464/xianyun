@@ -4,15 +4,14 @@
     <el-carousel height="700px" :interval="2000">
       <el-carousel-item v-for="(item, index) in banners" :key="index">
         <div class="banner">
-          <img :src="item" alt />
-          {{ item }}
+          <img :src="$axios.defaults.baseURL+item.url" />
         </div>
       </el-carousel-item>
 
       <!-- 搜索框 -->
       <div class="search-content">
         <div class="search-bar">
-          <!-- tab -->
+          <!-- Tab -->
           <el-row type="flex" class="search-tab">
             <span
               v-for="(item, index) in options"
@@ -21,6 +20,7 @@
               @click="handlerOption(index)"
             >{{ item.name }}</span>
           </el-row>
+
           <!-- 输入框 -->
           <el-row type="flex" align="middle" class="search-input">
             <input :placeholder="options[currentOption].placeholder" v-model="searchValue" />
@@ -37,15 +37,9 @@ export default {
   // - 参数定义
   data() {
     return {
-      banners: [
-        "http://157.122.54.189:9095/assets/images/th03.jfif",
-        "http://157.122.54.189:9095/assets/images/th04.jfif",
-        "/images/1.jpg",
-        "/images/4.jpg",
-        "/images/5.jpg"
-      ],
+      banners: [],
       options: [
-        // 搜索框tab选项
+        // 搜索框Tab
         {
           name: "攻略",
           placeholder: "搜索城市",
@@ -72,6 +66,17 @@ export default {
     handlerOption(index) {
       this.currentOption = index;
     }
+  },
+
+  // - 钩子
+  mounted() {
+    // _请求轮播图片
+    this.$axios({
+      url: "/scenics/banners"
+    }).then(res => {
+      const { data } = res.data;
+      this.banners = data;
+    });
   }
 };
 </script>

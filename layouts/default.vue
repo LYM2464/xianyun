@@ -1,11 +1,11 @@
 <template>
   <div>
     <!-- 头部组件 -->
-    <Header></Header>
+    <Header />
     <!-- 内容占位组件，相当于router-view -->
     <nuxt />
     <!-- 尾部组件 -->
-    <Footer></Footer>
+    <Footer />
   </div>
 </template>
 
@@ -46,8 +46,6 @@ ol {
 a {
   text-decoration: none;
   color: inherit;
-}
-a:hover {
 }
 em,
 i {

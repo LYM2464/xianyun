@@ -3,10 +3,10 @@
     <!-- 轮播图 -->
     <el-carousel height="700px" :interval="2000">
       <el-carousel-item v-for="(item, index) in banners" :key="index">
-        <div class="banner">
-          <img :src="item" alt />
-          {{ item }}
-        </div>
+        <div
+          class="banner"
+          :style="`background:url(${item}) center center no-repeat;background-size:100% 100%`"
+        ></div>
       </el-carousel-item>
 
       <!-- login -->
@@ -43,14 +43,7 @@ export default {
   data() {
     return {
       // _轮播图片
-      // banners: ["/images/1.jpg", "/images/2.jpg", "/images/3.jpg"],
-      banners: [
-        "http://157.122.54.189:9095/assets/images/th03.jfif",
-        "http://157.122.54.189:9095/assets/images/th04.jfif",
-        "/images/1.jpg",
-        "/images/4.jpg",
-        "/images/5.jpg"
-      ],
+      banners: ["/images/1.jpg", "/images/2.jpg", "/images/3.jpg"],
       currentTab: 0
     };
   },
@@ -62,7 +55,7 @@ export default {
       console.log(this.form);
     },
 
-    // _tab标签切换
+    // _Tab栏切换
     handleChangeTab(index) {
       this.currentTab = index;
     },
@@ -73,6 +66,8 @@ export default {
     }
   },
 
+  // -
+
   // - 组件
   components: {
     LoginForm,
@@ -82,12 +77,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-img {
+.banner {
   width: 100%;
-  max-width: 1920px;
-  max-height: 1080;
-  min-width: 1200px;
-  min-height: 700px;
+  height: 100%;
 }
 .login {
   position: absolute;

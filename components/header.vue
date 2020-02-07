@@ -4,7 +4,7 @@
       <!-- logo -->
       <div class="logo">
         <nuxt-link to="/">
-          <img src="http://157.122.54.189:9093/images/logo.jpg" alt="" />
+          <img src="http://157.122.54.189:9093/images/logo.jpg" alt />
         </nuxt-link>
       </div>
 
@@ -38,18 +38,31 @@
         </el-dropdown>
 
         <!-- 不存在用户信息展示登录注册链接 -->
-        <nuxt-link to="/user/login" class="account-link" v-else>
-          登录 / 注册
-        </nuxt-link>
+        <nuxt-link to="/user/login" class="account-link" v-else-if="!token">登录 / 注册</nuxt-link>
       </el-row>
     </el-row>
   </header>
 </template>
 <script>
 export default {
+  // - 参数定义
+  data() {
+    return {
+      token: undefined,
+      userInfo: {}
+    };
+  },
+
+  // - 函数定义
   methods: {
-    // 用户退出
+    // _用户退出
     handleLogout() {}
+  },
+
+  // - 钩子函数
+  mounted() {
+    // this.userInfo = this.$store.state.user.userInfo;
+    // console.log(this.$store.state.user.userInfo);
   }
 };
 </script>

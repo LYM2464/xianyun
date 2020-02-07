@@ -1,11 +1,12 @@
 <template>
-  <el-form :model="form" ref="form" :rules="rules" class="form">
+  <el-form :model="form" ref="form" status-icon :rules="rules" class="form">
     <el-form-item class="form-item" prop="username">
-      <el-input placeholder="用户名/手机" v-model="form.username"></el-input>
+      <!-- <el-input placeholder="用户名/手机" v-model="form.username"></el-input> -->
+      <input type="text" />
     </el-form-item>
 
     <el-form-item class="form-item" prop="password">
-      <el-input placeholder="密码" type="password" v-model="form.password"></el-input>
+      <!-- <el-input placeholder="密码" type="password" v-model="form.password"></el-input> -->
     </el-form-item>
 
     <p class="form-text">
@@ -18,30 +19,30 @@
 
 <script>
 export default {
+  // - 参数定义
   data() {
+    // _Element组件指定的验证规则函数
     let username = function(rule, value, callback) {
-      // console.log(rule);
-      // console.log(value);
-      // console.log(callback);
       if (!value) {
         return callback(new Error("请输入账号"));
       }
+      callback();
     };
-    let password = function(rule, value, callback) {
-      if (!value) {
-        return callback(new Error("请输入密码"));
-      }
-    };
+
     return {
       // _用户信息
       form: {
         username: "13800138000",
         password: "123456"
       },
+
       // _表单规则
       rules: {
-        username: [{ validator: username, targger: true }],
-        password: [{ required: true, message: "请输入密码", targger: true }]
+        username: [{ validator: username, targger: "blur" }],
+        password: [
+          { required: true, message: "请输入密码", trigger: "blur" },
+          { min: 3, max: 8, message: "长度在 3 到 5 个字符", trigger: "blur" }
+        ]
       }
     };
   },
@@ -50,9 +51,8 @@ export default {
   methods: {
     // _login
     handleLoginSubmit() {
-      console.log(this.form);
       this.$refs["form"].validate(valid => {
-        // 为true表示没有错误
+        // valid值为true表示没有错误
         if (valid) {
           this.$axios({
             url: "/accounts/login",
@@ -60,6 +60,10 @@ export default {
             data: this.form
           }).then(res => {
             console.log(res.data);
+            const { data } = res;
+
+            // 调用mutations的方法，将数据存储到store/user.js
+            // this.$store.commit("user/setUserInfo", data);
           });
         }
       });
