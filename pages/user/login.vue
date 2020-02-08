@@ -59,8 +59,8 @@ export default {
     handleChangeTab(index) {
       this.currentTab = index;
     },
-    resetForm() {},
-    submitForm() {},
+    // resetForm() {},
+    // submitForm() {},
     handlerOption(index) {
       this.currentOption = index;
     }

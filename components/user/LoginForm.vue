@@ -1,12 +1,13 @@
 <template>
   <el-form :model="form" ref="form" status-icon :rules="rules" class="form">
     <el-form-item class="form-item" prop="username">
-      <!-- <el-input placeholder="用户名/手机" v-model="form.username"></el-input> -->
-      <input type="text" />
+      <!-- 账号 -->
+      <el-input placeholder="用户名/手机" v-model="form.username"></el-input>
     </el-form-item>
 
     <el-form-item class="form-item" prop="password">
-      <!-- <el-input placeholder="密码" type="password" v-model="form.password"></el-input> -->
+      <!-- 密码 -->
+      <el-input placeholder="密码" type="password" v-model="form.password"></el-input>
     </el-form-item>
 
     <p class="form-text">
@@ -54,16 +55,9 @@ export default {
       this.$refs["form"].validate(valid => {
         // valid值为true表示没有错误
         if (valid) {
-          this.$axios({
-            url: "/accounts/login",
-            method: "POST",
-            data: this.form
-          }).then(res => {
-            console.log(res.data);
-            const { data } = res;
-
-            // 调用mutations的方法，将数据存储到store/user.js
-            // this.$store.commit("user/setUserInfo", data);
+          this.$store.dispatch("user/login", this.form).then(() => {
+            this.$message.success("登录成功！");
+            this.$router.push("/");
           });
         }
       });

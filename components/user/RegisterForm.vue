@@ -11,18 +11,32 @@
     </el-form-item>
 
     <el-form-item class="form-item" prop="password">
-      <el-input placeholder="你的名字" type="password" v-model="form.nickname"></el-input>
+      <el-input
+        placeholder="你的名字"
+        type="password"
+        v-model="form.nickname"
+      ></el-input>
     </el-form-item>
 
     <el-form-item class="form-item" prop="password">
-      <el-input placeholder="密码" type="password" v-model="form.password"></el-input>
+      <el-input
+        placeholder="密码"
+        type="password"
+        v-model="form.password"
+      ></el-input>
     </el-form-item>
 
     <el-form-item class="form-item" prop="password">
-      <el-input placeholder="确认密码" type="password" v-model="form.checkPassword"></el-input>
+      <el-input
+        placeholder="确认密码"
+        type="password"
+        v-model="form.checkPassword"
+      ></el-input>
     </el-form-item>
 
-    <el-button class="submit" type="primary" @click="handleRegister">注册</el-button>
+    <el-button class="submit" type="primary" @click="handleRegister"
+      >注册</el-button
+    >
   </el-form>
 </template>
 
@@ -58,7 +72,14 @@ export default {
 
   // - 函数
   methods: {
-    handleRegister() {}
+    // _注册提交
+    handleRegister() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.$store.dispatch("user/register", this.form);
+        }
+      });
+    }
   }
 };
 </script>
