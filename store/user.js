@@ -19,6 +19,7 @@ export const mutations = {
 // - 接口
 export const actions = {
   // _登录
+
   login({ commit }, data) {
     return this.$axios({
       url: "/accounts/login",
@@ -32,6 +33,7 @@ export const actions = {
   },
 
   // _注册
+
   register(store, data) {
     const { checkPassword, ...props } = data;
     return this.$axios({
@@ -46,6 +48,7 @@ export const actions = {
   },
 
   // _发送验证码
+
   sendCaptcha(store, data) {
     return this.$axios({
       url: `/captchas`,
