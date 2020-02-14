@@ -47,7 +47,7 @@ export default {
   data() {
     return {
       // _航班总数据
-      flightsData: { info: {}, options: {} },
+      flightsData: { info: {}, options: {}, flights: [] },
       // _航班数据
       dataList: [],
       // _当前页

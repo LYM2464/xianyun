@@ -56,7 +56,7 @@
       筛选：
       <el-button type="primary" round plain size="mini" @click="handleFiltersCancel">撤销</el-button>
     </div>
-    <div>{{screen}}</div>
+    <div>{{screenData}}</div>
   </div>
 </template>
 
@@ -126,36 +126,55 @@ export default {
 
   // - 计算属性可以侦听多个属性
   computed: {
-    screen() {
-      let arr = this.data.flights;
-      let s = false;
-      if (this.airport) {
-        s = true;
-        arr = arr.filter(v => {
-          return this.airport === v.org_airport_name;
-        });
-      }
-      if (this.flightTimes) {
-        s = true;
-        const [from, to] = this.flightTimes.split(","); // [6,12]
-        arr = arr.filter(v => {
-          // 出发时间小时
-          const start = +v.dep_time.split(":")[0];
-          return start >= from && start < to;
-        });
-      }
-      if (this.company) {
-        s = true;
-        arr = arr.filter(v => {
-          return v.airline_name === this.company;
-        });
-      }
-      if (this.airSize) {
-        s = true;
-        arr = arr.filter(v => v.plane_size === this.airSize);
-      }
-      if (s) this.$emit("getData", arr);
+    screenData() {
+      let arr = this.data.flights.filter(v => {
+        let valid = true;
+        if (this.airport && this.airport !== v.org_airport_name) {
+          valid = false;
+        }
+        if (this.company && v.airline_name !== this.company) {
+          valid = false;
+        }
+        if (this.airSize && v.plane_size !== this.airSize) {
+          valid = false;
+        }
+        if (this.flightTimes) {
+          const time = this.flightTimes.split(","); // [6,12]
+          const hours = +v.dep_time.split(":")[0];
+          if (Number(time[0]) > hours || hours >= Number(time[1])) {
+            valid = false;
+          }
+        }
+        return valid;
+      });
+      this.$emit("getData", arr);
     }
+    // if (this.airport) {
+    //   s = true;
+    //   arr = arr.filter(v => {
+    //     return this.airport === v.org_airport_name;
+    //   });
+    // }
+    // if (this.flightTimes) {
+    //   s = true;
+    //   const [from, to] = this.flightTimes.split(","); // [6,12]
+    //   arr = arr.filter(v => {
+    //     // 出发时间小时
+    //     const start = +v.dep_time.split(":")[0];
+    //     return start >= from && start < to;
+    //   });
+    // }
+    // if (this.company) {
+    //   s = true;
+    //   arr = arr.filter(v => {
+    //     return v.airline_name === this.company;
+    //   });
+    // }
+    // if (this.airSize) {
+    //   s = true;
+    //   arr = arr.filter(v => v.plane_size === this.airSize);
+    // }
+    // if (s) this.$emit("getData", arr);
   },
 
   // - 钩子
