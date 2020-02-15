@@ -48,13 +48,7 @@
         ></el-date-picker>
       </el-form-item>
       <el-form-item label>
-        <el-button
-          style="width:100%;"
-          type="primary"
-          icon="el-icon-search"
-          @click="handleSubmit"
-          >搜索</el-button
-        >
+        <el-button style="width:100%;" type="primary" icon="el-icon-search" @click="handleSubmit">搜索</el-button>
       </el-form-item>
       <div class="reverse">
         <span @click="handleReverse">换</span>
@@ -118,7 +112,7 @@ export default {
 
     // _出发城市下拉选择时触发
     handleDepartSelect(item) {
-      console.log(item);
+      // console.log(item);
       this.form.departCity = item.value;
       this.form.departCode = item.sort;
     },
@@ -176,6 +170,7 @@ export default {
         }
       });
       if (!valid) return;
+      this.$store.commit("air/setHistoryCity", this.form);
       this.$router.push({
         path: "/air/flights",
         query: this.form

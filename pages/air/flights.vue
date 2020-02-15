@@ -33,6 +33,7 @@
       <!-- 侧边栏 -->
       <div class="aside">
         <!-- 侧边栏组件 -->
+        <FlightsAside />
       </div>
     </el-row>
   </section>
@@ -42,6 +43,7 @@
 import FlightsListHead from "@/components/air/flightsListHead";
 import FlightsItem from "@/components/air/flightsItem";
 import FilghtsFilters from "@/components/air/flightsFilters";
+import FlightsAside from "@/components/air/flightsAside";
 
 export default {
   data() {
@@ -88,24 +90,33 @@ export default {
         (this.pageIndex - 1) * this.pageSize,
         this.pageIndex * this.pageSize
       );
+    },
+
+    airs() {
+      this.$axios({
+        url: `airs`,
+        params: this.$route.query
+      }).then(res => {
+        this.flightsData = res.data;
+        //   this.dataList = this.flightsData.flights;
+        this.setDataList();
+      });
     }
   },
 
   components: {
     FlightsListHead,
     FlightsItem,
-    FilghtsFilters
+    FilghtsFilters,
+    FlightsAside
   },
 
   mounted() {
-    this.$axios({
-      url: `airs`,
-      params: this.$route.query
-    }).then(res => {
-      this.flightsData = res.data;
-      //   this.dataList = this.flightsData.flights;
-      this.setDataList();
-    });
+    this.airs();
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.airs();
+    next();
   }
 };
 </script>
