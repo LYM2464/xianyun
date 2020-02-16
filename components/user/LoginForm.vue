@@ -7,20 +7,14 @@
 
     <el-form-item class="form-item" prop="password">
       <!-- 密码 -->
-      <el-input
-        placeholder="密码"
-        type="password"
-        v-model="form.password"
-      ></el-input>
+      <el-input placeholder="密码" type="password" v-model="form.password"></el-input>
     </el-form-item>
 
     <p class="form-text">
       <nuxt-link to="#">忘记密码</nuxt-link>
     </p>
 
-    <el-button class="submit" type="primary" @click="handleLoginSubmit"
-      >登录</el-button
-    >
+    <el-button class="submit" type="primary" @click="handleLoginSubmit">登录</el-button>
   </el-form>
 </template>
 
@@ -63,7 +57,8 @@ export default {
         if (valid) {
           this.$store.dispatch("user/login", this.form).then(() => {
             this.$message.success("登录成功！");
-            this.$router.push("/");
+            // replace跳转路由不会记录
+            this.$router.replace(this.$route.query.returnURL || "/");
           });
         }
       });

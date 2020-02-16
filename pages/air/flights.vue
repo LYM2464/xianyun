@@ -115,8 +115,9 @@ export default {
     this.airs();
   },
   beforeRouteUpdate(to, from, next) {
-    this.airs();
+    this.pageIndex = 1;
     next();
+    this.airs();
   }
 };
 </script>
